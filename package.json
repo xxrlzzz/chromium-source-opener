@@ -3,6 +3,10 @@
 	"displayName": "chromium_source_opener",
 	"description": "link your chromium code to source.chromium.org",
 	"publisher": "xxrl",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/han837951112/chromium-source-opener"
+	},
 	"version": "0.0.1",
 	"engines": {
 		"vscode": "^1.51.0"
