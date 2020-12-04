@@ -1,0 +1,52 @@
+{
+	"name": "chromium-source-opener",
+	"displayName": "chromium_source_opener",
+	"description": "link your chromium code to source.chromium.org",
+	"publisher": "xxrl",
+	"version": "0.0.1",
+	"engines": {
+		"vscode": "^1.51.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"onCommand:chromium-source-opener.openInWeb"
+	],
+	"main": "./extension.js",
+	"contributes": {
+		"commands": [
+			{
+				"command": "chromium-source-opener.openInWeb",
+				"title": "open in chromium-source website"
+			}
+		],
+		"menus": {
+			"editor/context": [
+				{
+					"command": "chromium-source-opener.openInWeb",
+					"group": "open"
+				}
+			]
+		}
+	},
+	"scripts": {
+		"lint": "eslint .",
+		"pretest": "npm run lint",
+		"test": "node ./test/runTest.js"
+	},
+	"devDependencies": {
+		"@types/vscode": "^1.51.0",
+		"@types/glob": "^7.1.3",
+		"@types/mocha": "^8.0.0",
+		"@types/node": "^12.11.7",
+		"eslint": "^7.9.0",
+		"glob": "^7.1.6",
+		"mocha": "^8.1.3",
+		"typescript": "^4.0.2",
+		"vscode-test": "^1.4.0"
+	},
+	"dependencies": {
+		"open": "^7.3.0"
+	}
+}
