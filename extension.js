@@ -30,6 +30,12 @@ function activate(context) {
 		}
 		const baseUrl = "https://source.chromium.org/chromium/chromium/src/+/master:";
 		var path = editor.document.uri.fsPath
+		var src_idx = path.search('src/')
+		if (src_idx == -1) {
+			console.log('not in a src file')
+			return 
+		}
+		path = path.substring(src_idx + 4 )
 		var line = (editor.selection.active.line + 1).toString()
 		console.log(path, line)
 		await open(`${baseUrl}${path};l=${line}`)
