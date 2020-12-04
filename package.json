@@ -11,7 +11,8 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:chromium-source-opener.openInWeb"
+		"onCommand:chromium-source-opener.openInWeb",
+		"onCommand:chromium-source-opener.listen"
 	],
 	"main": "./extension.js",
 	"contributes": {
@@ -19,6 +20,10 @@
 			{
 				"command": "chromium-source-opener.openInWeb",
 				"title": "open in chromium-source website"
+			},
+			{
+				"command": "chromium-source-opener.listen",
+				"title": "accept request let browser code open in vscode"
 			}
 		],
 		"menus": {
@@ -47,6 +52,8 @@
 		"vscode-test": "^1.4.0"
 	},
 	"dependencies": {
+		"express": "^4.17.1",
+		"morgan": "^1.10.0",
 		"open": "^7.3.0"
 	}
 }

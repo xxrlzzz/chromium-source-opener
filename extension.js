@@ -2,6 +2,10 @@
 // Import the module and reference it with the alias vscode in your code below
 const vscode = require('vscode');
 const open = require('open');
+const express = require('express');
+const exec = require('child_process').exec;
+const morgan = require('morgan');
+const fs = require('fs');
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 
@@ -9,19 +13,37 @@ const open = require('open');
  * @param {vscode.ExtensionContext} context
  */
 function activate(context) {
+	// 集成 chrome 打开 ide 的插件
+	var app = express();
+	var logStream = fs.createWriteStream('/tmp/chrome_source_opener.log', {flags: 'a'})
+	app.use(morgan('short', {stream: logStream}))
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "chromium-source-opener" is now active!');
+	app.get('/file', (req, res)=> {
+		let filepath = req.query.f;
+		let line = req.query.l ;
+		console.log(`open file: ${filepath}:${line}`);
+		exec(`myeditor -f ${filepath} -l ${line}`)
+		res.send("ok");
+	})
+	let started = false;
+	let listen = vscode.commands.registerCommand('chromium-source-opener.listen', function() {
+		if (!started) {
+			vscode.window.showInformationMessage('open server in localhost:8989, check log in /tmp/chrome_source_opener.log');
+			started = true;
+			app.listen(8999);
+		} else {
+			vscode.window.showWarningMessage('server already start');
+		}
+	})
+	/*
+	// how to stop this?
+	vscode.commands.registerCommand('chromium-source-opener.unlisten', function() {
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with  registerCommand
-	// The commandId parameter must match the command field in package.json
+	})
+	*/
+	
+	//  try to open in source.chromium.org
 	let disposable = vscode.commands.registerCommand('chromium-source-opener.openInWeb', async function () {
-		// The code you place here will be executed every time your command is executed
-
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello VScode from chromium_source_opener!');
 		const editor = vscode.window.activeTextEditor;
 
 		if (!editor)	{
@@ -41,6 +63,7 @@ function activate(context) {
 		await open(`${baseUrl}${path};l=${line}`)
 	});
 
+	context.subscriptions.push(listen);
 	context.subscriptions.push(disposable);
 }
 exports.activate = activate;
