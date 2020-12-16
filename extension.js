@@ -59,8 +59,15 @@ function activate(context) {
 		}
 		path = path.substring(src_idx + 4 )
 		var line = (editor.selection.active.line + 1).toString()
-		console.log(path, line)
-		await open(`${baseUrl}${path};l=${line}`)
+		// console.log(path, line)
+		const selection = vscode.window.activeTextEditor.selection
+		const selected = vscode.window.activeTextEditor.document.getText(new vscode.Range
+			(selection.start, selection.end))
+		let queryUrl = `${baseUrl}${path};l=${line}`
+		if (!selection.isEmpty) {
+			queryUrl += `?q=${selected}`
+		}
+		await open(queryUrl)
 	});
 
 	context.subscriptions.push(listen);
