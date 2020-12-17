@@ -26,6 +26,10 @@
 				"title": "open in chromium-source website"
 			},
 			{
+				"command": "chromium-source-opener.searchInWeb",
+				"title": "try to open References on selected"
+			},
+			{
 				"command": "chromium-source-opener.listen",
 				"title": "accept request let browser code open in vscode"
 			}
@@ -34,6 +38,10 @@
 			"editor/context": [
 				{
 					"command": "chromium-source-opener.openInWeb",
+					"group": "open"
+				},
+				{
+					"command": "chromium-source-opener.searchInWeb",
 					"group": "open"
 				}
 			]
